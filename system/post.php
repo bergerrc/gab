@@ -17,7 +17,7 @@
         die('There was no _POST set');
     }
 
-    #print_r($_POST);
+//    print_r($_POST);
     #exit;
 
     # init
@@ -69,12 +69,12 @@
     _P('cli') ? $isCli = true : $isCli = false;
 
     /* LOOP LINES IN TOML */
-    $lines = preg_split("/((\r?\n)|(\r\n?))/", $params);
+    $lines = preg_split("/(\r?\n)|(\r\n?)|(\|)/", $params);
     $new = '';
     $hasError = false;
 
     foreach( $lines as $line )
-    {
+    { //echo $line;
         if(contains(':', $line ))
         {
             // all lines must has equals sign so use to explode
@@ -185,7 +185,6 @@
         }
         echo "</p>";
     }
-
     // no errors
     else {
 
@@ -199,7 +198,6 @@
             $q['candle_size'] = $candle_size;
             $q['history_size'] = $history_size;
             if($isCli) $q['cli'] = true;
-
             #prp($q); exit;
 
             $domain = $_SERVER['HTTP_HOST'];
@@ -216,8 +214,8 @@
                     $domain = $d;
                 }
             }
-
-            $post = curl_post2($prefix . $domain . $dir . '/runner.php', $q); // this echo entire <html>...
+            $url = $prefix . $domain . $dir . '/runner.php';
+            $post = curl_post2($url, $q); // this echo entire <html>...
             if( $isCli ) $post = strip_tags($post);
             echo $post;
             exit;
@@ -226,6 +224,7 @@
             echo 'Error in your TOML, Format for range values are min:max,stepping e.g. 20:60,10';
             echo "\n";
             echo $e->getMessage();
+            logMsg(print_r($e),'error');
             exit;
         }
     }
