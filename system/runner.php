@@ -18,6 +18,7 @@ $gz_level = 8;
 
 $gab = new \GAB\core($conf);
 
+#prph('POST');
 #prp($_POST);
 
 
@@ -29,7 +30,7 @@ else {
 	die('No strategy was set to be used. Cannot run.');
 }
 
-//print_r($_POST);
+#print_r($_POST);
 
 /* 2 - get strategy default params */
 $strat_name = _P('strategy_name');
@@ -269,11 +270,11 @@ if( $hasRan )
 	$db = null;
 	exit; // just exit
 }
-//logMsg(json_encode($gconf->gekkoConfig),'debug');
+//logMsg(json_encode($gconf),'debug');
 /* RUN */
 $timer_start = timer_start(); // start timer
 $url = $conf->endpoints->backtest;
-$curl = curl_post($url, json_encode($gconf->gekkoConfig));
+$curl = curl_post($url, json_encode($gconf));
 $timer_end = timer_end($timer_start); // returns seconds
 
 # check curl status
@@ -482,7 +483,7 @@ try {
 
 	} // end profitStrategy > market
 	else {
-		//logMsg(json_encode($gconf->gekkoConfig),'debug');
+		//logMsg(json_encode($gconf),'debug');
 		# start transaction
 		$db->beginTransaction();
 
@@ -498,7 +499,7 @@ try {
 } // try {}
 catch(Exception $e){
 	echo $e->getMessage();
-	logMsg(json_encode($gconf->gekkoConfig),'debug');
+	logMsg(json_encode($gconf),'debug');
 	$db->rollBack();
 	unset($db);
 	exit;
