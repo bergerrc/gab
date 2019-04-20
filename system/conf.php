@@ -2,9 +2,10 @@
 
 	// server paths
 	$dirRoot = dirname(__FILE__);
-	$base_path = str_replace('/system','/', $dirRoot);
-	$system_path = $base_path . 'system/';
 
+	$base_path = str_replace('/system','/', $dirRoot);
+	$base_path = str_replace('\system','\\', $base_path);
+	$system_path = $base_path . 'system/';
 	/*
 		GET USER CONFIGURATION
 		Have none? See the error that will show up.
