@@ -113,14 +113,14 @@
 	function curl_get($url)
 	{
 
-		defined(SERVER_TIMEOUT) ? $timeout = SERVER_TIMEOUT : $timeout = 600;
+		defined(SERVER_TIMEOUT) ? $timeout = SERVER_TIMEOUT : $timeout = 60;
 
 		$curl = curl_init($url);
 		curl_setopt($curl, CURLOPT_ENCODING, 0);
 		curl_setopt($curl, CURLOPT_RETURNTRANSFER, true);
 		curl_setopt($curl, CURLOPT_IPRESOLVE, CURL_IPRESOLVE_V4 );
 		curl_setopt($curl, CURLOPT_SSL_VERIFYPEER, 0);
-		curl_setopt($curl, CURLOPT_CONNECTTIMEOUT, 120);
+		curl_setopt($curl, CURLOPT_CONNECTTIMEOUT, 10);
 		curl_setopt($curl, CURLOPT_TIMEOUT, $timeout);
 
 		$result = curl_exec($curl);
@@ -265,7 +265,7 @@
 
 	function curl_post($url, $vars)
 	{
-		defined(SERVER_TIMEOUT) ? $timeout = SERVER_TIMEOUT : $timeout = 600;
+		defined(SERVER_TIMEOUT) ? $timeout = SERVER_TIMEOUT : $timeout = 60;
 
 		$curl = curl_init($url);
 		curl_setopt($curl, CURLOPT_RETURNTRANSFER, TRUE);
@@ -293,14 +293,15 @@
 	// used to posting to 'self'
 	function curl_post2($url, $vars)
 	{
-		defined(SERVER_TIMEOUT) ? $timeout = SERVER_TIMEOUT : $timeout = 600;
+		defined(SERVER_TIMEOUT) ? $timeout = SERVER_TIMEOUT : $timeout = 60;
 
 		$curl = curl_init($url);
 		curl_setopt($curl, CURLOPT_RETURNTRANSFER, TRUE);
 		curl_setopt($curl, CURLOPT_SSL_VERIFYPEER, 0);
+		curl_setopt($curl, CURLOPT_VERBOSE, 1);
 		curl_setopt($curl, CURLOPT_POST, true);
 		curl_setopt($curl, CURLOPT_POSTFIELDS, $vars);
-		curl_setopt($curl, CURLOPT_CONNECTTIMEOUT, 120);
+		curl_setopt($curl, CURLOPT_CONNECTTIMEOUT, 10);
 		curl_setopt($curl, CURLOPT_TIMEOUT, $timeout);
 		$data = curl_exec($curl);
 
@@ -337,5 +338,47 @@
 
 	}
 
-
+	function logMsg( $msg, $level = 'info', $file='../info.log' )
+	{
+		// variável que vai armazenar o nível do log (INFO, WARNING ou ERROR)
+		$levelStr = '';
+	 
+		// verifica o nível do log
+		switch ( $level )
+		{
+			case 'info':
+				// nível de informação
+				$levelStr = 'INFO';
+				break;
+	 
+			case 'debug':
+				// nível de debug
+				$levelStr = 'DEBUG';
+				break;
+			
+			case 'warning':
+				// nível de aviso
+				$levelStr = 'WARNING';
+				break;
+	 
+			case 'error':
+				// nível de erro
+				$levelStr = 'ERROR';
+				break;
+		}
+	 
+		// data atual
+		$date = date( 'Y-m-d H:i:s' );
+	 
+		// formata a mensagem do log
+		// 1o: data atual
+		// 2o: nível da mensagem (INFO, WARNING ou ERROR)
+		// 3o: a mensagem propriamente dita
+		// 4o: uma quebra de linha
+		$msg = sprintf( "[%s] [%s]: %s%s", $date, $levelStr, $msg, PHP_EOL );
+	 
+		// escreve o log no arquivo
+		// é necessário usar FILE_APPEND para que a mensagem seja escrita no final do arquivo, preservando o conteúdo antigo do arquivo
+		file_put_contents( $file, $msg, FILE_APPEND );
+	}
 ?>
