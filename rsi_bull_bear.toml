@@ -1,0 +1,22 @@
+[SMA]
+long = 700:1000,50
+short = 10:90,5
+
+[BULL]
+rsi = 5:20,5
+high = 70:90,5
+low = 30:50,5
+mod_high = 5:10,5
+mod_low = -30:-15,5
+
+[BEAR]
+rsi = 5:20,5
+high = 20:40,5
+low = 10:30,5
+mod_high = 10:20,5
+mod_low = -20:-5,5
+
+[ADX]
+adx = 1:10,5
+high = 60:80,5
+low = 20:40,5
