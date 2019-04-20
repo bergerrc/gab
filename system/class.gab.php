@@ -277,9 +277,21 @@ class core {
 					'reportRoundtrips' => 1,
 					'enabled' => 1,
 				],
-
+				"backtestResultExporter" => [
+					"enabled" => true,
+					"writeToDisk" => false,
+					"data" => [
+						"stratUpdates" => false,
+						"roundtrips" => true, // set to 1 to get all roundtrips
+						"stratCandles" => false, // 0 or 1 (does nothing?)
+						"stratCandleProps" => [
+							"open"
+						],
+						"trades" => false // does nothing?
+					]
+				],
 			], // gekkoConfig
-
+/*
 			'data' => [
 				'candleProps' => 0, // 0 = disable, else ['close','start']
 				'indicatorResults' => 0, // 0 or 1 (does nothing?)
@@ -287,7 +299,7 @@ class core {
 				'roundtrips' => 1, // set to 1 to get all roundtrips
 				'trader' => 0, // does nothing?
 			],
-
+*/
 		];
 
 
